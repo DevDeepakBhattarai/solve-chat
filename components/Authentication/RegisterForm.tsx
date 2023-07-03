@@ -7,6 +7,8 @@ import MailIcon from "../Icons/MailIcon";
 import LockIcon from "../Icons/LockIcon";
 import UserIcon from "../Icons/UserIcon";
 import { Button } from "../ui/button";
+import axios from "axios";
+import { toast } from "react-toastify";
 interface Props {}
 
 export default function RegisterForm({}: Props): ReactElement {
@@ -15,7 +17,7 @@ export default function RegisterForm({}: Props): ReactElement {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userName, setUserName] = useState("");
-
+  const [loading, setLoading] = useState(false);
   return (
     <div className="px-16 py-10 grid mx-auto gap-8 max-w-2xl ">
       <p>
@@ -67,10 +69,61 @@ export default function RegisterForm({}: Props): ReactElement {
       </div>
 
       <div className="text-center">
-        <Button className="py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70">
+        <Button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70"
+        >
           Register
         </Button>
       </div>
     </div>
   );
+  async function handleSubmit() {
+    if (password !== confirmPassword) {
+      toast.error("Your password do not match", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        "/api/register",
+        { email, password, userName },
+        { withCredentials: true }
+      );
+      const data = res.data;
+      toast.success(data, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (e: any) {
+      toast.error(e.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
 }

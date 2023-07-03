@@ -1,6 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  OAuthProvider,
+} from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyAE8V0GbAb33MzvXc2SnBJQ7cn84P5GUEo",
   authDomain: "facebook-clone-8fca4.firebaseapp.com",
@@ -17,4 +22,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+export const facebookProvider = new FacebookAuthProvider();
+export const appleProvider = new OAuthProvider("apple.com");
 export const googleProvider = new GoogleAuthProvider();

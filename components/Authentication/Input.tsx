@@ -20,6 +20,8 @@ export default function Input({
   placeholder,
   type,
   id,
+  setValue,
+  value,
   label,
 }: Props): ReactElement {
   return (
@@ -35,7 +37,8 @@ export default function Input({
         <input
           type={type}
           id={id}
-          //   value={value}
+          onChange={(e) => setValue(e.target.value)}
+          value={value}
           placeholder={placeholder}
           className="border-none outline-none dark:bg-background focus:border-none focus:outline-none w-full px-3 max-h-8 placeholder:text-primary dark:placeholder:text-white group-focus-within:placeholder:text-sm transition-all duration-150"
         />

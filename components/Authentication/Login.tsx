@@ -7,6 +7,8 @@ import RegisterForm from "./RegisterForm";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveTab } from "@/slices/AuthSlice";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {}
 
@@ -15,6 +17,7 @@ export default function Login({}: Props): ReactElement {
   const { activeTab } = useSelector((store: RootState) => store.auth);
   return (
     <div className="place-self-start -mt-16 relative z-50">
+      <ToastContainer />
       <Tabs
         onKeyDown={(e) => {
           if (e.key == "ArrowRight" || e.key == "ArrowLeft") {
