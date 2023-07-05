@@ -2,11 +2,8 @@
 
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-
 import { cn } from "@/lib/utils";
-import { AppDispatch, RootState } from "@/lib/store";
-import { useDispatch, useSelector } from "react-redux";
-import { setActiveTab } from "@/slices/AuthSlice";
+import { useAuthState } from "@/states/authState";
 import { motion } from "framer-motion";
 const Tabs = TabsPrimitive.Root;
 
@@ -29,13 +26,13 @@ const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
 >(({ className, children, value, ...props }, ref) => {
-  const { activeTab } = useSelector((store: RootState) => store.auth);
+  const { activeTab } = useAuthState();
   return (
     <TabsPrimitive.Trigger
       ref={ref}
       value={value}
       className={cn(
-        "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 isolate disabled:pointer-events-none disabled:opacity-50  data-[state=active]:text-foreground data-[state=active]:shadow-sm relative",
+        "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-foreground/80 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 isolate disabled:pointer-events-none disabled:opacity-50  data-[state=active]:text-foreground data-[state=active]:shadow-sm relative",
         className
       )}
       {...props}

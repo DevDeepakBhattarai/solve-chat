@@ -15,7 +15,7 @@ export default function page({}: Props): ReactElement {
         <Login></Login>
       </div>
 
-      <div className="w-[45%] h-full">
+      <div className="w-[45%] h-full md:block hidden">
         <Sally></Sally>
       </div>
     </main>

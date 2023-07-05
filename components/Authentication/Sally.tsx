@@ -2,13 +2,11 @@
 import React, { ReactElement } from "react";
 import Image from "next/image";
 import Saly from "../../public/Saly.png";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/lib/store";
+import { useAuthState } from "@/states/authState";
 interface Props {}
 
 export default function Sally({}: Props): ReactElement {
-  const dispatch = useDispatch<AppDispatch>();
-  const { activeTab } = useSelector((store: RootState) => store.auth);
+  const { activeTab } = useAuthState();
   return (
     <div className="rounded-lg flex justify-center h-full bg-secondary p-10">
       <div className="grid w-max h-full relative ">

@@ -1,7 +1,4 @@
 import React, { ReactElement, useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
-import { setActiveTab } from "@/slices/AuthSlice";
 import Input, { PasswordInput } from "./Input";
 import MailIcon from "../Icons/MailIcon";
 import LockIcon from "../Icons/LockIcon";
@@ -9,23 +6,24 @@ import UserIcon from "../Icons/UserIcon";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useAuthState } from "@/states/authState";
 interface Props {}
 
 export default function RegisterForm({}: Props): ReactElement {
-  const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false);
+  const { setActiveTab } = useAuthState();
   return (
-    <div className="px-16 py-10 grid mx-auto gap-8 max-w-2xl ">
+    <div className="px-4 md:px-16 py-10 grid mx-auto gap-8 max-w-2xl ">
       <p>
         If you already have a account you can{" "}
         <span
           className="text-primary underline cursor-pointer font-semibold"
           onClick={() => {
-            dispatch(setActiveTab("signin"));
+            setActiveTab("signin");
           }}
         >
           login here!

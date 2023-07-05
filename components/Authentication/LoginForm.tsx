@@ -1,18 +1,4 @@
 "use client";
-import React, { ReactElement, forwardRef, useState } from "react";
-import Logo from "../Logo";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
-import { setActiveTab } from "@/slices/AuthSlice";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import MailIcon from "../Icons/MailIcon";
-import AppleIcon from "../Icons/AppleIcon";
-import GoogleIcon from "../Icons/GoogleIcon";
-import FacebookIcon from "../Icons/FacebookIcon";
-import Input, { PasswordInput } from "./Input";
-import LockIcon from "../Icons/LockIcon";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import {
   appleProvider,
   auth,
@@ -21,23 +7,31 @@ import {
   googleProvider,
 } from "@/lib/firebase";
 import axios from "axios";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { ReactElement, useState } from "react";
 import { toast } from "react-toastify";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import GoogleIcon from "../Icons/GoogleIcon";
+import LockIcon from "../Icons/LockIcon";
+import MailIcon from "../Icons/MailIcon";
+import { Button } from "../ui/button";
+import Input, { PasswordInput } from "./Input";
+import { useAuthState } from "@/states/authState";
 interface Props {}
 
 export default function LoginForm({}: Props): ReactElement {
-  const dispatch = useDispatch<AppDispatch>();
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const { setActiveTab } = useAuthState();
   return (
-    <div className="px-16 py-10 grid mx-auto gap-8 max-w-2xl ">
+    <div className="px-4 md:px-16 py-10 grid mx-auto gap-8 max-w-2xl ">
       <p>
         If you don&apos;t have a account you can{" "}
         <span
           className="text-primary underline cursor-pointer font-semibold"
           onClick={() => {
-            dispatch(setActiveTab("signup"));
+            setActiveTab("signup");
           }}
         >
           register here!
@@ -76,31 +70,33 @@ export default function LoginForm({}: Props): ReactElement {
       </div>
 
       <div className="text-center text-gray-800/60 font-bold text-sm dark:text-white/75">
-        or continue with
+        or
       </div>
 
       <div className="flex gap-2 justify-center  hover:">
         {/*//! Apple Logo */}
-        <Button
+        {/* <Button
           onClick={() => signWithProvider(appleProvider)}
           className="h-10 w-10 rounded-full bg-white dark:p-2  hover:scale-110 transition-all duration-150 p-0 cursor-pointer hover:bg-white"
         >
           <AppleIcon></AppleIcon>
-        </Button>
+        </Button> */}
         {/* //! Googlge Logo */}
         <Button
           onClick={() => signWithProvider(googleProvider)}
-          className="h-10 w-10 hover:scale-110 transition-all bg-transparent rounded-full duration-150 cursor-pointer p-0 hover:bg-background"
+          className="text-black whitespace-nowrap bg-white hover:bg-white/90  flex items-center justify-center gap-3 transition-all rounded-md duration-150 cursor-pointer p-2 hover:scale-105"
         >
           <GoogleIcon></GoogleIcon>
+
+          <span className="font-semibold">Continue with Google</span>
         </Button>{" "}
         {/* //! Facebook Logo */}
-        <Button
+        {/* <Button
           onClick={() => signWithProvider(facebookProvider)}
           className="h-11 w-11 hover:scale-110 transition-all  bg-transparent rounded-full   duration-150 cursor-pointer p-0 hover:bg-background"
         >
           <FacebookIcon></FacebookIcon>
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
@@ -136,15 +132,23 @@ export default function LoginForm({}: Props): ReactElement {
     try {
       const userCredential = await signInWithPopup(auth, provider);
       const idToken = await userCredential.user.getIdToken();
+
+      //! Send a request to the server to handle ssr later on
       await handleServerLogic(idToken);
-      const userCollection = collection(db, "users");
+
       const userData = {
         userName: userCredential.user.displayName || "",
         email: userCredential.user.email || "",
         photo: userCredential.user.photoURL || "",
       };
+
       const uid = userCredential.user.uid;
-      await setDoc(doc(db, "users", uid), userData);
+      const docRef = doc(db, "users", uid);
+      const userDoc = await getDoc(docRef);
+
+      if (!userDoc.exists()) {
+        await setDoc(doc(db, "users", uid), userData); //* Create doc if it does not exits
+      }
     } catch (e: any) {
       console.log(e.code);
       if (e.code !== "auth/cancelled-popup-request")
@@ -162,7 +166,7 @@ export default function LoginForm({}: Props): ReactElement {
   }
 
   async function handleServerLogic(idToken: string) {
-    const res = await axios.post(
+    await axios.post(
       "/api/login",
       {},
       {

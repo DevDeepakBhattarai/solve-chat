@@ -6,16 +6,15 @@ import {
   FacebookAuthProvider,
   OAuthProvider,
 } from "firebase/auth";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAE8V0GbAb33MzvXc2SnBJQ7cn84P5GUEo",
-  authDomain: "facebook-clone-8fca4.firebaseapp.com",
-  databaseURL:
-    "https://facebook-clone-8fca4-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "facebook-clone-8fca4",
-  storageBucket: "facebook-clone-8fca4.appspot.com",
-  messagingSenderId: "460358990293",
-  appId: "1:460358990293:web:8d3737ccfa74915854e55c",
-  measurementId: "G-8LGC1BPE07",
+  apiKey: "AIzaSyCAjliEeODXOHKdhAuOAK6-_jJ5iMkrHgY",
+  authDomain: "solvechat-cdc39.firebaseapp.com",
+  projectId: "solvechat-cdc39",
+  storageBucket: "solvechat-cdc39.appspot.com",
+  messagingSenderId: "911052446320",
+  appId: "1:911052446320:web:1b41f017e36dbbd97c32b5",
+  measurementId: "G-G5E3C68WRS",
 };
 
 // Initialize Firebase

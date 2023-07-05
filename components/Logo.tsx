@@ -1,13 +1,12 @@
 "use client";
+import { useUiState } from "@/states/uiState";
 import React, { ReactElement } from "react";
 import Image from "next/image";
-import { RootState } from "@/lib/store";
-import { useSelector } from "react-redux";
 
 interface Props {}
 
 export default function Logo({}: Props): ReactElement {
-  const { darkMode } = useSelector((store: RootState) => store.ui);
+  const { darkMode } = useUiState();
   return (
     <div className="relative overflow-hidden h-48 w-48">
       <Image

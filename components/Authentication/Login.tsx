@@ -1,28 +1,24 @@
 "use client";
-import React, { ReactElement, useRef } from "react";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
-import { AppDispatch, RootState } from "@/lib/store";
-import { useDispatch, useSelector } from "react-redux";
-import { setActiveTab } from "@/slices/AuthSlice";
+import { ReactElement } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+import { useAuthState } from "@/states/authState";
 
 interface Props {}
 
 export default function Login({}: Props): ReactElement {
-  const dispatch = useDispatch<AppDispatch>();
-  const { activeTab } = useSelector((store: RootState) => store.auth);
+  const { setActiveTab, activeTab } = useAuthState();
   return (
     <div className="place-self-start -mt-16 relative z-50">
       <ToastContainer />
       <Tabs
         onKeyDown={(e) => {
           if (e.key == "ArrowRight" || e.key == "ArrowLeft") {
-            if (activeTab == "signin") dispatch(setActiveTab("signup"));
-            if (activeTab == "signup") dispatch(setActiveTab("signin"));
+            if (activeTab == "signin") setActiveTab("signup");
+            if (activeTab == "signup") setActiveTab("signin");
           }
         }}
         value={activeTab}
@@ -30,16 +26,10 @@ export default function Login({}: Props): ReactElement {
         className="w-full"
       >
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger
-            onClick={() => dispatch(setActiveTab("signin"))}
-            value="signin"
-          >
+          <TabsTrigger onClick={() => setActiveTab("signin")} value="signin">
             SignIn
           </TabsTrigger>
-          <TabsTrigger
-            onClick={() => dispatch(setActiveTab("signup"))}
-            value="signup"
-          >
+          <TabsTrigger onClick={() => setActiveTab("signup")} value="signup">
             SignUp
           </TabsTrigger>
         </TabsList>

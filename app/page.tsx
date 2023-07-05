@@ -1,6 +1,7 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import { signIn } from "next-auth/react";
 export default function Home() {
   return (
     <div className="">
@@ -20,6 +21,7 @@ export default function Home() {
           <div>hello what is up mate</div>
         </TabsContent>
       </Tabs>
+      <Button onClick={() => signIn()}></Button>
     </div>
   );
 }

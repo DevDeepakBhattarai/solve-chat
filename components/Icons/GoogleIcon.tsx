@@ -7,7 +7,7 @@ export default function GoogleIcon({}: Props): ReactElement {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 48 48"
-      className="h-full w-full"
+      className="h-9 w-9"
     >
       <path
         fill="#FFC107"
