@@ -1,13 +1,15 @@
 import React, { ReactElement } from "react";
 
-interface Props {}
+interface Props {
+  className: string;
+}
 
-export default function GoogleIcon({}: Props): ReactElement {
+export default function GoogleIcon({ className }: Props): ReactElement {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 48 48"
-      className="h-9 w-9"
+      className={className}
     >
       <path
         fill="#FFC107"

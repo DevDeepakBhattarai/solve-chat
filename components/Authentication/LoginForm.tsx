@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { ReactElement, useState } from "react";
+import { ReactElement, use, useState } from "react";
 import { toast } from "react-toastify";
 import GoogleIcon from "../Icons/GoogleIcon";
 import LockIcon from "../Icons/LockIcon";
@@ -17,9 +17,13 @@ import MailIcon from "../Icons/MailIcon";
 import { Button } from "../ui/button";
 import Input, { PasswordInput } from "./Input";
 import { useAuthState } from "@/states/authState";
+import { sign } from "crypto";
+import { getSession, signIn } from "next-auth/react";
 interface Props {}
 
 export default function LoginForm({}: Props): ReactElement {
+  const session = use(getSession());
+  console.log(session);
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -83,10 +87,12 @@ export default function LoginForm({}: Props): ReactElement {
         </Button> */}
         {/* //! Googlge Logo */}
         <Button
-          onClick={() => signWithProvider(googleProvider)}
-          className="text-black whitespace-nowrap bg-white hover:bg-white/90  flex items-center justify-center gap-3 transition-all rounded-md duration-150 cursor-pointer p-2 hover:scale-105"
+          onClick={() => signIn("google")}
+          className="text-white whitespace-nowrap bg-blue-600 hover:bg-blue-600/90  flex items-center justify-center gap-2 transition-all rounded-full duration-150 cursor-pointer px-1 h-9 pr-2 hover:scale-105"
         >
-          <GoogleIcon></GoogleIcon>
+          <span className="bg-white rounded-full">
+            <GoogleIcon className="h-8 w-8"></GoogleIcon>
+          </span>
 
           <span className="font-semibold">Continue with Google</span>
         </Button>{" "}
@@ -102,16 +108,13 @@ export default function LoginForm({}: Props): ReactElement {
   );
 
   async function emailAndPasswordLogin() {
+    if (email.trim() === "" && password.trim() === "") return;
     setLoading(true);
-    console.log(email, password);
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
+      await signIn("credentials", {
         email,
-        password
-      );
-      const idToken = await userCredential.user.getIdToken();
-      await handleServerLogic(idToken);
+        password,
+      });
     } catch (e) {
       setLoading(false);
 
