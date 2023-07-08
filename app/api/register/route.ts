@@ -39,9 +39,10 @@ export async function POST(request: Request) {
     if (isEmailAlreadyUsed)
       return new Response("Email Already Used", { status: 409 });
 
-    const OTP = String(Math.floor(Math.random() * 999999));
+    const OTP = String(Math.floor(Math.random() * 1000000));
     const EmailHTML = render(Email({ opt: OTP }));
     const MailOptions = {
+      from: `"SolveChat" <solvechat.help@gmail.com>`,
       to: email,
       subject: "Confirmation Code",
       html: EmailHTML,

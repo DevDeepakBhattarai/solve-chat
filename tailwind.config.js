@@ -65,10 +65,25 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        shake: {
+          "0%": {
+            translate: "0",
+          },
+          "25%": {
+            translate: "-10%",
+          },
+          "75%": {
+            translate: "10%",
+          },
+          "100%": {
+            translate: "0%",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        shake: "shake 0.4s ease-in-out",
       },
     },
   },

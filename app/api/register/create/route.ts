@@ -11,21 +11,28 @@ export async function POST(request: Request) {
   if (!OTP) return new Response("No OTP available", { status: 422 });
   const jwt = cookies().get("jwt")?.value;
 
-  if (!jwt) return new Response("No any jwt available", { status: 422 });
+  if (!jwt)
+    return new Response("No any json web token available", { status: 422 });
   const userData = verify(jwt, process.env.JWT_SECRET!) as UserData;
 
-  if (!userData) return new Response("Invalid data", { status: 422 });
+  if (!userData) return new Response("Invalid jwt", { status: 422 });
 
   if (userData.used > 5)
-    new Response("You have tried too many times .Please start over again");
+    return new Response(
+      "You have tried too many times .Please start over again",
+      {
+        status: 410,
+      }
+    );
 
   const isOTPCorrect = await compare(OTP, userData.OTP);
 
   if (!isOTPCorrect) {
     const newJWT = sign(
-      { ...userData, used: userData.used++ },
+      { ...userData, used: userData.used + 1 },
       process.env.JWT_SECRET!
     );
+    cookies().delete("jwt");
     cookies().set("jwt", newJWT);
     return new Response("Invalid OTP please try again", { status: 400 });
   }

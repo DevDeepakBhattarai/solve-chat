@@ -53,8 +53,10 @@ export default function Input({
             background: "black",
           }}
           className={cn(
-            "border-none rounded-md outline-none dark:bg-background focus:border-none focus:outline-none w-full px-3 max-h-8 placeholder:text-primary dark:placeholder:text-white group-focus-within:placeholder:text-sm transition-all duration-150",
-            error ? "placeholder:text-red-500" : "placeholder:text-primary",
+            "border-none rounded-md outline-none dark:bg-background focus:border-none focus:outline-none w-full px-3 max-h-8  group-focus-within:placeholder:text-sm transition-all duration-150",
+            error
+              ? "placeholder:text-red-500"
+              : "placeholder:text-primary dark:placeholder:text-white",
             className
           )}
         />

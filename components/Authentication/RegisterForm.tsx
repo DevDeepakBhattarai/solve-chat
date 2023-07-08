@@ -7,6 +7,8 @@ import { Button } from "../ui/button";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuthState } from "@/states/authState";
+import { cn } from "@/lib/utils";
+import OTPModal from "./OTPModal";
 interface Props {}
 
 export default function RegisterForm({}: Props): ReactElement {
@@ -15,9 +17,15 @@ export default function RegisterForm({}: Props): ReactElement {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userName, setUserName] = useState("");
   const { setActiveTab, isLoading, setIsLoading } = useAuthState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<number[]>([0, 0, 0, 0]);
   return (
-    <div className="px-4 md:px-16 py-10 grid mx-auto gap-8 max-w-2xl ">
+    <div className="px-4 md:px-16 py-10 grid mx-auto gap-8 max-w-2xl">
+      <OTPModal
+        open={isModalOpen}
+        email={email}
+        setOpen={setIsModalOpen}
+      ></OTPModal>
       <p>
         If you already have a account you can{" "}
         <span
@@ -78,11 +86,15 @@ export default function RegisterForm({}: Props): ReactElement {
         <Button
           onClick={handleSubmit}
           disabled={isLoading}
-          className="py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70"
+          className={cn(
+            "py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70",
+            error.includes(1) ? " animate-shake" : "animate-none"
+          )}
         >
           Register
         </Button>
       </div>
+      <button onClick={() => setIsModalOpen(true)}>Hello</button>
     </div>
   );
 
@@ -103,6 +115,7 @@ export default function RegisterForm({}: Props): ReactElement {
         { withCredentials: true }
       );
       const data = res.data;
+      setIsModalOpen(true);
       toast.success(data);
     } catch (e: any) {
       toast.error(e.message);
@@ -124,7 +137,7 @@ export default function RegisterForm({}: Props): ReactElement {
         Number(password == ""),
         Number(confirmPassword == ""),
       ]);
-      toast.error("Please Enter all the credential");
+      !error.includes(1) && toast.error("Please Enter all the credential");
       return false;
     }
 

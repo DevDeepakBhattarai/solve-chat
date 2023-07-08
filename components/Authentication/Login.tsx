@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import { useAuthState } from "@/states/authState";
+import { Dialog, DialogPortal } from "../ui/dialog";
 
 interface Props {}
 
@@ -13,15 +14,19 @@ export default function Login({}: Props): ReactElement {
   const { setActiveTab, activeTab } = useAuthState();
   return (
     <div className="place-self-start -mt-16 relative z-50">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        closeOnClick={true}
-        pauseOnHover={true}
-        draggable={true}
-        theme="dark"
-      />
+      <Dialog open={true}>
+        <DialogPortal>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            closeOnClick={true}
+            pauseOnHover={true}
+            draggable={true}
+            theme="dark"
+          />
+        </DialogPortal>
+      </Dialog>
       <Tabs
         onKeyDown={(e) => {
           if (e.key == "ArrowRight" || e.key == "ArrowLeft") {

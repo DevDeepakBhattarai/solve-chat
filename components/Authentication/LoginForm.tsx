@@ -19,10 +19,12 @@ import Input, { PasswordInput } from "./Input";
 import { useAuthState } from "@/states/authState";
 import { sign } from "crypto";
 import { getSession, signIn } from "next-auth/react";
+import { cn } from "@/lib/utils";
 interface Props {}
 export default function LoginForm({}: Props): ReactElement {
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [error, setError] = useState([0, 0]);
 
   const { setActiveTab, isLoading, setIsLoading } = useAuthState();
   return (
@@ -47,6 +49,13 @@ export default function LoginForm({}: Props): ReactElement {
           placeholder="Enter your email here"
           type="email"
           Icon={<MailIcon></MailIcon>}
+          error={Boolean(error[0])}
+          onFocus={() =>
+            setError((prev) => {
+              prev[0] = 0;
+              return [...prev];
+            })
+          }
         ></Input>
 
         <PasswordInput
@@ -56,15 +65,25 @@ export default function LoginForm({}: Props): ReactElement {
           id="password"
           value={password}
           setValue={setPassword}
+          error={Boolean(error[1])}
+          onFocus={() =>
+            setError((prev) => {
+              prev[1] = 0;
+              return [...prev];
+            })
+          }
           Icon={<LockIcon />}
         ></PasswordInput>
       </div>
 
-      <div className="text-center">
+      <div className={"text-center "}>
         <Button
           onClick={emailAndPasswordLogin}
           disabled={isLoading}
-          className="py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70"
+          className={cn(
+            "py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70",
+            error.includes(1) ? " animate-shake" : "animate-none"
+          )}
         >
           Login
         </Button>
@@ -104,7 +123,13 @@ export default function LoginForm({}: Props): ReactElement {
     </div>
   );
   async function emailAndPasswordLogin() {
-    if (email.trim() === "" && password.trim() === "") return;
+    if (email.trim() === "" || password.trim() === "") {
+      setError([Number(email.trim() == ""), Number(password.trim() === "")]);
+      toast.error("Please enter your email and password");
+
+      return;
+    }
+
     setIsLoading(true);
     try {
       await signIn("credentials", {
@@ -114,16 +139,7 @@ export default function LoginForm({}: Props): ReactElement {
     } catch (e) {
       setIsLoading(false);
 
-      toast.error("Email and password do not match", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      toast.error("Email and password do not match");
     }
   }
 
@@ -151,16 +167,7 @@ export default function LoginForm({}: Props): ReactElement {
     } catch (e: any) {
       console.log(e.code);
       if (e.code !== "auth/cancelled-popup-request")
-        toast.error("Something went wrong please try again", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        toast.error("Something went wrong please try again");
     }
   }
 
