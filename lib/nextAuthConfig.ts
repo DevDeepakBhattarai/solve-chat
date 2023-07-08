@@ -89,7 +89,6 @@ export const nextAuthOptions: NextAuthOptions = {
           .auth()
           .createCustomToken(user.id);
         token.customToken = firebaseCustomToken;
-        console.log(firebaseCustomToken);
         token.id = user.id;
       }
       return token;

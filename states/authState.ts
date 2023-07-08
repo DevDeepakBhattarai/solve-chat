@@ -1,3 +1,4 @@
+import { BloomFilter } from "next/dist/shared/lib/bloom-filter";
 import { create } from "zustand";
 
 type Tabs = "signin" | "signup";
@@ -8,6 +9,7 @@ interface AuthState {
   activeTab: Tabs;
   setActiveTab: (tab: Tabs) => void;
 }
+
 export const useAuthState = create<AuthState>((set) => ({
   isLoading: false,
   setIsLoading: (isLoading) => set({ isLoading }),

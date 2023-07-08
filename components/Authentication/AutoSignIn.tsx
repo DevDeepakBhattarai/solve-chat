@@ -1,30 +1,35 @@
 "use client";
 import { auth } from "@/lib/firebase";
-import { signInWithCustomToken, signOut } from "firebase/auth";
-import { SessionProvider, getSession, useSession } from "next-auth/react";
-import React, { ReactElement, use, useEffect } from "react";
+import {
+  Unsubscribe,
+  onAuthStateChanged,
+  signInWithCustomToken,
+  signOut,
+} from "firebase/auth";
+import { SessionProvider, useSession } from "next-auth/react";
+import React, {
+  MutableRefObject,
+  ReactElement,
+  useEffect,
+  useRef,
+} from "react";
 import { toast } from "react-toastify";
 
 interface Props {}
 
 function Form({}: Props): ReactElement {
   const { data: session } = useSession();
+  const unsubscribe: MutableRefObject<Unsubscribe | null> = useRef(null);
   useEffect(() => {
     async function Login() {
       if (session?.user.customToken) {
         try {
-          await signInWithCustomToken(auth, session.user.customToken);
-        } catch (e) {
-          toast.error("Something went wrong.", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
+          unsubscribe.current = onAuthStateChanged(auth, async (user) => {
+            if (!user)
+              await signInWithCustomToken(auth, session.user.customToken);
           });
+        } catch (e) {
+          toast.error("Something went wrong.");
         }
 
         if (!session) {
@@ -34,6 +39,9 @@ function Form({}: Props): ReactElement {
     }
 
     Login();
+    return () => {
+      unsubscribe.current && unsubscribe.current();
+    };
   }, [session]);
   return <></>;
 }

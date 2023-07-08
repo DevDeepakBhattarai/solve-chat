@@ -20,14 +20,11 @@ import { useAuthState } from "@/states/authState";
 import { sign } from "crypto";
 import { getSession, signIn } from "next-auth/react";
 interface Props {}
-
 export default function LoginForm({}: Props): ReactElement {
-  const session = use(getSession());
-  console.log(session);
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const { setActiveTab } = useAuthState();
+
+  const { setActiveTab, isLoading, setIsLoading } = useAuthState();
   return (
     <div className="px-4 md:px-16 py-10 grid mx-auto gap-8 max-w-2xl ">
       <p>
@@ -66,7 +63,7 @@ export default function LoginForm({}: Props): ReactElement {
       <div className="text-center">
         <Button
           onClick={emailAndPasswordLogin}
-          disabled={loading}
+          disabled={isLoading}
           className="py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70"
         >
           Login
@@ -106,17 +103,16 @@ export default function LoginForm({}: Props): ReactElement {
       </div>
     </div>
   );
-
   async function emailAndPasswordLogin() {
     if (email.trim() === "" && password.trim() === "") return;
-    setLoading(true);
+    setIsLoading(true);
     try {
       await signIn("credentials", {
         email,
         password,
       });
     } catch (e) {
-      setLoading(false);
+      setIsLoading(false);
 
       toast.error("Email and password do not match", {
         position: "top-right",
@@ -179,6 +175,6 @@ export default function LoginForm({}: Props): ReactElement {
         withCredentials: true,
       }
     );
-    setLoading(false);
+    setIsLoading(false);
   }
 }

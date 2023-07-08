@@ -18,7 +18,9 @@ export default function Home() {
         </TabsContent>
 
         <TabsContent value="signup">
-          <div>hello what is up mate</div>
+          <div className="shadow-[inset_0_0_0px_1000px_hsla(var(--background))]">
+            hello what is up mate
+          </div>
         </TabsContent>
       </Tabs>
       <Button onClick={() => signIn()}></Button>

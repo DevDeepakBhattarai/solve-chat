@@ -6,13 +6,16 @@ import React, {
   useState,
 } from "react";
 import { Separator } from "../ui/separator";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { AlertTriangle, EyeIcon, EyeOffIcon } from "lucide-react";
+import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   Icon: ReactElement;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   type: string;
   label: string;
+  error?: boolean;
 }
 
 export default function Input({
@@ -23,6 +26,9 @@ export default function Input({
   setValue,
   value,
   label,
+  className,
+  error = false,
+  ...props
 }: Props): ReactElement {
   return (
     <div className="space-y-2 group">
@@ -32,18 +38,39 @@ export default function Input({
       >
         {label}
       </label>
-      <div className="flex">
-        <label htmlFor={id}>{Icon}</label>
+      <div className="flex relative gap-2 items-center ">
+        <label htmlFor={id} className={error ? "text-red-500" : "text-primary"}>
+          {Icon}
+        </label>
         <input
           type={type}
           id={id}
           onChange={(e) => setValue(e.target.value)}
           value={value}
           placeholder={placeholder}
-          className="border-none outline-none dark:bg-background focus:border-none focus:outline-none w-full px-3 max-h-8 placeholder:text-primary dark:placeholder:text-white group-focus-within:placeholder:text-sm transition-all duration-150"
+          {...props}
+          style={{
+            background: "black",
+          }}
+          className={cn(
+            "border-none rounded-md outline-none dark:bg-background focus:border-none focus:outline-none w-full px-3 max-h-8 placeholder:text-primary dark:placeholder:text-white group-focus-within:placeholder:text-sm transition-all duration-150",
+            error ? "placeholder:text-red-500" : "placeholder:text-primary",
+            className
+          )}
         />
+        {error && (
+          <label htmlFor={id} className="absolute right-0 h-full w-8">
+            <AlertTriangle color="red" />
+          </label>
+        )}
       </div>
-      <Separator className="group-focus-within:bg-black bg-primary dark:group-focus-within:bg-white"></Separator>
+
+      <Separator
+        className={clsx(
+          "group-focus-within:bg-black dark:group-focus-within:bg-white",
+          { "bg-red-500": error, "bg-primary": !error }
+        )}
+      ></Separator>
     </div>
   );
 }
@@ -55,7 +82,10 @@ export function PasswordInput({
   value,
   placeholder,
   label,
+  error,
+  className,
   setValue,
+  ...props
 }: Props) {
   const ref = useRef<HTMLInputElement>(null);
   const [isShown, setIsShown] = useState(false);
@@ -70,8 +100,10 @@ export function PasswordInput({
       >
         {label}
       </label>
-      <div className="flex relative">
-        <label htmlFor={id}>{Icon}</label>
+      <div className="flex relative gap-2 items-center">
+        <label htmlFor={id} className={error ? "text-red-500" : "text-primary"}>
+          {Icon}
+        </label>
         <input
           ref={ref}
           type={isShown ? "text" : type}
@@ -79,10 +111,24 @@ export function PasswordInput({
           id={id}
           value={value}
           placeholder={placeholder}
-          className="border-none outline-none dark:bg-background focus:border-none focus:outline-none w-full px-3 placeholder:text-primary dark:placeholder:text-white group-focus-within:placeholder:text-sm transition-all duration-150"
+          className={cn(
+            "border-none  rounded-md  outline-none dark:bg-background focus:border-none focus:outline-none w-full px-3   group-focus-within:placeholder:text-sm transition-all duration-150",
+            error
+              ? "placeholder:text-red-500"
+              : "placeholder:text-primary dark:placeholder:text-white",
+            className
+          )}
+          {...props}
         />
+
+        {error && (
+          <label htmlFor={id} className="absolute right-0 h-full w-8">
+            <AlertTriangle color="red" />
+          </label>
+        )}
+
         <label htmlFor={id} className="absolute right-0 h-full w-8">
-          {ref.current && value !== "" && (
+          {ref.current && value !== "" && !error && (
             <>
               {!isShown && <EyeIcon onClick={showPassword}></EyeIcon>}
 
@@ -91,7 +137,12 @@ export function PasswordInput({
           )}
         </label>
       </div>
-      <Separator className="group-focus-within:bg-black bg-primary dark:group-focus-within:bg-white"></Separator>
+      <Separator
+        className={clsx(
+          "group-focus-within:bg-black dark:group-focus-within:bg-white",
+          { "bg-red-500": error, "bg-primary": !error }
+        )}
+      ></Separator>
     </div>
   );
   function showPassword() {
