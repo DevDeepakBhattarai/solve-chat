@@ -95,6 +95,7 @@ export default function OTPModal({
         { withCredentials: true }
       );
       toast.success("Account Successfully Created. You can now login");
+      setOpen(false);
     } catch (error: any) {
       toast.error(error.response.data);
     }

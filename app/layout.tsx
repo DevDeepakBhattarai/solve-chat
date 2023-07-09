@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { nextAuthOptions } from "@/lib/nextAuthConfig";
 import AutoSignIn from "@/components/Authentication/AutoSignIn";
+import Toaster from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +20,11 @@ export default async function RootLayout({
   const session = await getServerSession(nextAuthOptions);
   return (
     <html lang="en" className="dark">
-      <body className={inter.className}>{children}</body>
-      {session && <AutoSignIn />}
+      <body className={inter.className}>
+        <Toaster></Toaster>
+        {children}
+        {session && <AutoSignIn />}
+      </body>
     </html>
   );
 }

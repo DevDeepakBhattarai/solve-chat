@@ -94,7 +94,6 @@ export default function RegisterForm({}: Props): ReactElement {
           Register
         </Button>
       </div>
-      <button onClick={() => setIsModalOpen(true)}>Hello</button>
     </div>
   );
 

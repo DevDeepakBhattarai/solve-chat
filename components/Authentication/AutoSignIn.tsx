@@ -25,6 +25,7 @@ function Form({}: Props): ReactElement {
       if (session?.user.customToken) {
         try {
           unsubscribe.current = onAuthStateChanged(auth, async (user) => {
+            console.log(user);
             if (!user)
               await signInWithCustomToken(auth, session.user.customToken);
           });

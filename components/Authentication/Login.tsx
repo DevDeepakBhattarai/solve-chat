@@ -14,19 +14,21 @@ export default function Login({}: Props): ReactElement {
   const { setActiveTab, activeTab } = useAuthState();
   return (
     <div className="place-self-start -mt-16 relative z-50">
-      <Dialog open={true}>
-        <DialogPortal>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            closeOnClick={true}
-            pauseOnHover={true}
-            draggable={true}
-            theme="dark"
-          />
-        </DialogPortal>
-      </Dialog>
+      {/* {typeof window && (
+        <Dialog open={true}>
+          <DialogPortal>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              closeOnClick={true}
+              pauseOnHover={true}
+              draggable={true}
+              theme="dark"
+            />
+          </DialogPortal>
+        </Dialog>
+      )} */}
       <Tabs
         onKeyDown={(e) => {
           if (e.key == "ArrowRight" || e.key == "ArrowLeft") {
@@ -46,11 +48,11 @@ export default function Login({}: Props): ReactElement {
             SignUp
           </TabsTrigger>
         </TabsList>
-        <TabsContent asChild value="signin">
+        <TabsContent value="signin">
           <LoginForm></LoginForm>
         </TabsContent>
 
-        <TabsContent asChild value="signup">
+        <TabsContent value="signup">
           <RegisterForm></RegisterForm>
         </TabsContent>
       </Tabs>

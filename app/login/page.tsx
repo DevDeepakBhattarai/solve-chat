@@ -3,13 +3,14 @@ import Sally from "@/components/Authentication/Sally";
 import Logo from "@/components/Logo";
 import { nextAuthOptions } from "@/lib/nextAuthConfig";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import React, { ReactElement } from "react";
 
 interface Props {}
 
 export default async function page({}: Props) {
   const session = await getServerSession(nextAuthOptions);
-  console.log(session);
+  if (session) redirect("/");
   return (
     <main className="flex h-screen p-4 gap-4">
       <div className="flex-1">
