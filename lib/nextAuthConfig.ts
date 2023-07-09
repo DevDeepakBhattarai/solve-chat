@@ -84,7 +84,8 @@ export const nextAuthOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, account, user }) {
-      if (account && user) {
+      console.log(token, user, account);
+      if (account) {
         const firebaseCustomToken = await admin
           .auth()
           .createCustomToken(user.id);

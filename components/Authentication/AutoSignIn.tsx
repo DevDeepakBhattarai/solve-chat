@@ -32,11 +32,11 @@ function Form({}: Props): ReactElement {
         } catch (e) {
           toast.error("Something went wrong.");
         }
-
-        if (!session) {
-          signOut(auth);
-        }
       }
+    }
+
+    if (!session) {
+      signOut(auth);
     }
 
     Login();
