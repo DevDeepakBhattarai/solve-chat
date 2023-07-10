@@ -67,6 +67,7 @@ export default function OTPModal({
               error ? "animate-shake" : "animate-none"
             )}
             onClick={createAccount}
+            loading={isLoading}
             disabled={isLoading}
           >
             Create account
@@ -91,8 +92,8 @@ export default function OTPModal({
       setIsLoading(true);
       await axios.post("/api/register/resend", {}, { withCredentials: true });
       toast.success("Successfully sent!");
-    } catch (e) {
-      toast.error("Something went wrong please try again");
+    } catch (e: any) {
+      toast.error(e.response.data);
     } finally {
       setIsLoading(false);
     }

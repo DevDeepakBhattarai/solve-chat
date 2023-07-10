@@ -86,6 +86,7 @@ export default function RegisterForm({}: Props): ReactElement {
         <Button
           onClick={handleSubmit}
           disabled={isLoading}
+          loading={isLoading}
           className={cn(
             "py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70",
             error.includes(1) ? " animate-shake" : "animate-none"
@@ -113,9 +114,7 @@ export default function RegisterForm({}: Props): ReactElement {
         { email, password, userName },
         { withCredentials: true }
       );
-      const data = res.data;
       setIsModalOpen(true);
-      toast.success(data);
     } catch (e: any) {
       toast.error(e.message);
     } finally {

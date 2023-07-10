@@ -19,6 +19,7 @@ export async function POST() {
   if (!jwt) return new Response("No json web token available", { status: 422 });
 
   const userData: UserData = verify(jwt, process.env.JWT_SECRET!) as UserData;
+  console.log(userData);
   if (!userData) return new Response("Invalid jwt", { status: 401 });
 
   if (userData?.time && userData.time > Date.now())
@@ -44,7 +45,7 @@ export async function POST() {
     time: Date.now() + 60 * 1000,
   };
 
-  const signedCredential = sign(userData, process.env.JWT_SECRET!);
+  const signedCredential = sign(newUserData, process.env.JWT_SECRET!);
   cookies().set("jwt", signedCredential);
 
   return new Response("OTP Successfully sent");

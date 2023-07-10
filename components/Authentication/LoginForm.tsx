@@ -80,6 +80,7 @@ export default function LoginForm({}: Props): ReactElement {
         <Button
           onClick={emailAndPasswordLogin}
           disabled={isLoading}
+          loading={isLoading}
           className={cn(
             "py-4 w-[90%] rounded-full active:scale-95 transition-all duration-150 font-semibold dark:text-white dark:hover:bg-primary/70",
             error.includes(1) ? " animate-shake" : "animate-none"
@@ -129,59 +130,16 @@ export default function LoginForm({}: Props): ReactElement {
 
       return;
     }
-
     setIsLoading(true);
-    try {
-      await signIn("credentials", {
-        email,
-        password,
-      });
-    } catch (e) {
-      setIsLoading(false);
+    const data = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-      toast.error("Email and password do not match");
+    if (data?.error) {
+      toast.error("Your Credentials do not match. Please try again");
     }
-  }
-
-  async function signWithProvider(provider: any) {
-    try {
-      const userCredential = await signInWithPopup(auth, provider);
-      const idToken = await userCredential.user.getIdToken();
-
-      //! Send a request to the server to handle ssr later on
-      await handleServerLogic(idToken);
-
-      const userData = {
-        userName: userCredential.user.displayName || "",
-        email: userCredential.user.email || "",
-        photo: userCredential.user.photoURL || "",
-      };
-
-      const uid = userCredential.user.uid;
-      const docRef = doc(db, "users", uid);
-      const userDoc = await getDoc(docRef);
-
-      if (!userDoc.exists()) {
-        await setDoc(doc(db, "users", uid), userData); //* Create doc if it does not exits
-      }
-    } catch (e: any) {
-      console.log(e.code);
-      if (e.code !== "auth/cancelled-popup-request")
-        toast.error("Something went wrong please try again");
-    }
-  }
-
-  async function handleServerLogic(idToken: string) {
-    await axios.post(
-      "/api/login",
-      {},
-      {
-        headers: {
-          Authorization: "Bearer" + idToken,
-        },
-        withCredentials: true,
-      }
-    );
     setIsLoading(false);
   }
 }
