@@ -1,13 +1,11 @@
 import { initializeFirebaseAdmin } from "@/lib/initializeFirebaseAdmin";
+import { render } from "@react-email/render";
 import { hash } from "bcryptjs";
-import * as admin from "firebase-admin";
+import { getFirestore } from "firebase-admin/firestore";
 import { sign } from "jsonwebtoken";
 import { cookies } from "next/headers";
-import { getFirestore } from "firebase-admin/firestore";
 import { createTransport } from "nodemailer";
 import { Email } from "./Email";
-import { render } from "@react-email/render";
-import Mail from "nodemailer/lib/mailer";
 const transporter = createTransport({
   service: "gmail",
   auth: {

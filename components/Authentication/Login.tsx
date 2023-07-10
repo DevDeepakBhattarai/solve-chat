@@ -1,12 +1,10 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuthState } from "@/states/authState";
 import { ReactElement } from "react";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import { useAuthState } from "@/states/authState";
-import { Dialog, DialogPortal } from "../ui/dialog";
 
 interface Props {}
 

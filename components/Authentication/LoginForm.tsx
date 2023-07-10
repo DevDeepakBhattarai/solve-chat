@@ -1,25 +1,14 @@
 "use client";
-import {
-  appleProvider,
-  auth,
-  db,
-  facebookProvider,
-  googleProvider,
-} from "@/lib/firebase";
-import axios from "axios";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { ReactElement, use, useState } from "react";
+import { cn } from "@/lib/utils";
+import { useAuthState } from "@/states/authState";
+import { signIn } from "next-auth/react";
+import { ReactElement, useState } from "react";
 import { toast } from "react-toastify";
 import GoogleIcon from "../Icons/GoogleIcon";
 import LockIcon from "../Icons/LockIcon";
 import MailIcon from "../Icons/MailIcon";
 import { Button } from "../ui/button";
 import Input, { PasswordInput } from "./Input";
-import { useAuthState } from "@/states/authState";
-import { sign } from "crypto";
-import { getSession, signIn } from "next-auth/react";
-import { cn } from "@/lib/utils";
 interface Props {}
 export default function LoginForm({}: Props): ReactElement {
   const [password, setPassword] = useState<string>("");

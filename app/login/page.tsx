@@ -4,7 +4,6 @@ import Logo from "@/components/Logo";
 import { nextAuthOptions } from "@/lib/nextAuthConfig";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import React, { ReactElement } from "react";
 
 interface Props {}
 

@@ -1,18 +1,17 @@
 "use client";
+import { cn } from "@/lib/utils";
 import axios from "axios";
 import React, { ReactElement, useState } from "react";
 import PinInput from "react-pin-input";
 import { toast } from "react-toastify";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
 
 interface Props {
   open: boolean;

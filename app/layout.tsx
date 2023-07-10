@@ -1,9 +1,9 @@
-import { getServerSession } from "next-auth";
-import "./globals.css";
-import { Inter } from "next/font/google";
-import { nextAuthOptions } from "@/lib/nextAuthConfig";
 import AutoSignIn from "@/components/Authentication/AutoSignIn";
 import Toaster from "@/components/ui/toaster";
+import { nextAuthOptions } from "@/lib/nextAuthConfig";
+import { getServerSession } from "next-auth";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -7,12 +7,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { SessionProvider, useSession } from "next-auth/react";
-import React, {
-  MutableRefObject,
-  ReactElement,
-  useEffect,
-  useRef,
-} from "react";
+import { MutableRefObject, ReactElement, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 interface Props {}

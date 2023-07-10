@@ -1,14 +1,8 @@
-import React, {
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { Separator } from "../ui/separator";
-import { AlertTriangle, EyeIcon, EyeOffIcon } from "lucide-react";
-import clsx from "clsx";
 import { cn } from "@/lib/utils";
+import clsx from "clsx";
+import { AlertTriangle, EyeIcon, EyeOffIcon } from "lucide-react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
+import { Separator } from "../ui/separator";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   Icon: ReactElement;
