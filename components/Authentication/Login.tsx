@@ -14,21 +14,6 @@ export default function Login({}: Props): ReactElement {
   const { setActiveTab, activeTab } = useAuthState();
   return (
     <div className="place-self-start -mt-16 relative z-50">
-      {/* {typeof window && (
-        <Dialog open={true}>
-          <DialogPortal>
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              closeOnClick={true}
-              pauseOnHover={true}
-              draggable={true}
-              theme="dark"
-            />
-          </DialogPortal>
-        </Dialog>
-      )} */}
       <Tabs
         onKeyDown={(e) => {
           if (e.key == "ArrowRight" || e.key == "ArrowLeft") {

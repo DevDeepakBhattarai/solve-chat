@@ -74,21 +74,36 @@ export default function OTPModal({
 
           <div className="block">
             Didn&apos;t receive a code ?{" "}
-            <span className="font-bold text-primary" onClick={resend}>
+            <button
+              disabled={isLoading}
+              className="font-bold text-primary disabled:scale-95 disabled:text-primary/80"
+              onClick={resend}
+            >
               Resend
-            </span>
+            </button>
           </div>
         </div>
       </DialogContent>
     </Dialog>
   );
-  async function resend() {}
+  async function resend() {
+    try {
+      setIsLoading(true);
+      await axios.post("/api/register/resend", {}, { withCredentials: true });
+      toast.success("Successfully sent!");
+    } catch (e) {
+      toast.error("Something went wrong please try again");
+    } finally {
+      setIsLoading(false);
+    }
+  }
   async function createAccount() {
     if (!OTP) {
       setError(true);
       return toast.error("Please enter the otp");
     }
     try {
+      setIsLoading(true);
       await axios.post(
         "/api/register/create",
         { OTP },
@@ -98,6 +113,8 @@ export default function OTPModal({
       setOpen(false);
     } catch (error: any) {
       toast.error(error.response.data);
+    } finally {
+      setIsLoading(false);
     }
   }
 }

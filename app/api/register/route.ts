@@ -21,6 +21,7 @@ export interface UserData {
   OTP: string;
   email: string;
   used: number;
+  time?: number;
 }
 export async function POST(request: Request) {
   initializeFirebaseAdmin();

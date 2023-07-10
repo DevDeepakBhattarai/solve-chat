@@ -51,6 +51,7 @@ export async function POST(request: Request) {
       .collection("password")
       .doc()
       .set({ hashedPassword: userData.password });
+    cookies().delete("jwt");
     return new Response("Account Successfully created. You can now login!");
   } catch (e) {
     console.log(e);
