@@ -1,6 +1,6 @@
 import Login from "@/components/Authentication/Login";
 import Sally from "@/components/Authentication/Sally";
-import Logo from "@/components/Logo";
+import Logo from "@/components/Icons/Logo";
 import { nextAuthOptions } from "@/lib/nextAuthConfig";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

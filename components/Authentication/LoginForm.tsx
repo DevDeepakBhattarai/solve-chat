@@ -93,7 +93,12 @@ export default function LoginForm({}: Props): ReactElement {
         </Button> */}
         {/* //! Googlge Logo */}
         <Button
-          onClick={() => signIn("google")}
+          onClick={async () => {
+            const data = await signIn("google");
+            if (data?.error) {
+              toast.error("Something went wrong. Please try again");
+            }
+          }}
           className="text-white whitespace-nowrap bg-blue-600 hover:bg-blue-600/90  flex items-center justify-center gap-2 transition-all rounded-full duration-150 cursor-pointer px-1 h-9 pr-2 hover:scale-105"
         >
           <span className="bg-white rounded-full">

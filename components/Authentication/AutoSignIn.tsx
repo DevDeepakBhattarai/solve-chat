@@ -1,5 +1,6 @@
 "use client";
 import { auth } from "@/lib/firebase";
+import { useUser } from "@/states/userState";
 import {
   Unsubscribe,
   onAuthStateChanged,
@@ -15,18 +16,27 @@ interface Props {}
 function Form({}: Props): ReactElement {
   const { data: session } = useSession();
   const unsubscribe: MutableRefObject<Unsubscribe | null> = useRef(null);
+  const { setUser, setLoading } = useUser();
   useEffect(() => {
+    if (session?.user) {
+      setUser({
+        email: session.user.email,
+        name: session.user.name,
+        image: session.user.picture,
+      });
+      setLoading(false);
+    }
     async function Login() {
       if (session?.user.customToken) {
-        try {
-          unsubscribe.current = onAuthStateChanged(auth, async (user) => {
-            console.log(user);
+        unsubscribe.current = onAuthStateChanged(auth, async (user) => {
+          console.log(user);
+          try {
             if (!user)
               await signInWithCustomToken(auth, session.user.customToken);
-          });
-        } catch (e) {
-          toast.error("Something went wrong.");
-        }
+          } catch (e) {
+            toast.error("Something went wrong.");
+          }
+        });
       }
     }
 
@@ -38,7 +48,7 @@ function Form({}: Props): ReactElement {
     return () => {
       unsubscribe.current && unsubscribe.current();
     };
-  }, [session]);
+  }, [session, setLoading, setUser]);
   return <></>;
 }
 export default function AutoSignIn() {
