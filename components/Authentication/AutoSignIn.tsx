@@ -7,14 +7,16 @@ import {
   signInWithCustomToken,
   signOut,
 } from "firebase/auth";
+import { Session } from "next-auth";
 import { SessionProvider, useSession } from "next-auth/react";
 import { MutableRefObject, ReactElement, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
-interface Props {}
+interface Props {
+  session: Session | null;
+}
 
-function Form({}: Props): ReactElement {
-  const { data: session } = useSession();
+function Form({ session }: Props): ReactElement {
   const unsubscribe: MutableRefObject<Unsubscribe | null> = useRef(null);
   const { setUser, setLoading } = useUser();
   useEffect(() => {
@@ -22,19 +24,21 @@ function Form({}: Props): ReactElement {
       setUser({
         email: session.user.email,
         name: session.user.name,
-        image: session.user.picture,
+        image: session.user.image,
       });
       setLoading(false);
     }
+
     async function Login() {
       if (session?.user.customToken) {
         unsubscribe.current = onAuthStateChanged(auth, async (user) => {
           console.log(user);
+          if (user) return;
+
           try {
-            if (!user)
-              await signInWithCustomToken(auth, session.user.customToken);
+            await signInWithCustomToken(auth, session.user.customToken);
           } catch (e) {
-            toast.error("Something went wrong.");
+            console.log(e);
           }
         });
       }
@@ -51,10 +55,10 @@ function Form({}: Props): ReactElement {
   }, [session, setLoading, setUser]);
   return <></>;
 }
-export default function AutoSignIn() {
+export default function AutoSignIn({ session }: Props) {
   return (
     <SessionProvider>
-      <Form></Form>
+      <Form session={session}></Form>
     </SessionProvider>
   );
 }

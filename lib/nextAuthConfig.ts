@@ -84,11 +84,11 @@ export const nextAuthOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, account, user }) {
-      console.log(token, user, account);
       if (account) {
         const firebaseCustomToken = await admin
           .auth()
           .createCustomToken(user.id);
+
         token.customToken = firebaseCustomToken;
         token.id = user.id;
       }
@@ -98,6 +98,9 @@ export const nextAuthOptions: NextAuthOptions = {
 
   session: {
     strategy: "jwt",
+  },
+  jwt: {
+    maxAge: 5 * 24 * 60 * 60 * 1000,
   },
   secret: process.env.NO_SECRET,
 };

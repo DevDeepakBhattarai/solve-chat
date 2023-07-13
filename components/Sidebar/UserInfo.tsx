@@ -2,13 +2,13 @@
 import { useUser } from "@/states/userState";
 import React, { ReactElement } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Logout from "./Logout";
 
 interface Props {}
 
 export default function UserInfo({}: Props): ReactElement {
   const { email, image, name, isLoading } = useUser();
-  console.log(email, image, name);
   return (
     <div className="flex">
       {isLoading && (
@@ -24,6 +24,10 @@ export default function UserInfo({}: Props): ReactElement {
       {!isLoading && (
         <div className="flex items-center space-x-3 p-4 w-full">
           <Avatar className="h-12 w-12">
+            <AvatarImage
+              src={image || undefined}
+              alt={`${name}'s Profile Pic`}
+            />
             <AvatarFallback>
               {name.substring(0, 1).toUpperCase()}
             </AvatarFallback>
@@ -32,7 +36,7 @@ export default function UserInfo({}: Props): ReactElement {
             <span className="whitespace-nowrap block font-semibold tracking-wide">
               {name}
             </span>
-            <span className="block text-sm">{email}</span>
+            <Logout></Logout>
           </div>
         </div>
       )}

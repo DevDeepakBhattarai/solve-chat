@@ -2,7 +2,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthState } from "@/states/authState";
 import { ReactElement } from "react";
-import "react-toastify/dist/ReactToastify.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 

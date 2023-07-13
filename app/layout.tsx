@@ -25,7 +25,7 @@ export default async function RootLayout({
         {session && <Navbar></Navbar>}
         <Toaster></Toaster>
         {children}
-        {session && <AutoSignIn />}
+        {session && <AutoSignIn session={session} />}
       </body>
     </html>
   );
