@@ -9,14 +9,13 @@ interface Props {}
 
 export default function Sidebar({}: Props): ReactElement {
   return (
-    <section className="flex flex-col grow h-screen gap-4 max-w-md border-r-white/20 border border-transparent">
+    <section className="flex flex-col shrink-0 h-screen gap-4 max-w-md w-full border-r-white/20 border border-transparent">
       <div>
-        <div className="flex justify-between items-center px-4 py-7  max-h-max">
+        <div className="flex justify-between items-center px-4 h-24 border-b border-white/20">
           <span className="text-2xl font-bold text-primary">Messages</span>
 
           <Search></Search>
         </div>
-        <Separator className="bg-white/20"></Separator>
       </div>
       <div className="px-4">
         {/* This is the pinned message section */}

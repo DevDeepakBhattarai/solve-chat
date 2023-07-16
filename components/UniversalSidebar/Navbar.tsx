@@ -25,17 +25,16 @@ const NavItems = [
 export default function Navbar({}: Props): ReactElement {
   return (
     <>
-      <nav className="flex flex-col justify-between grow sticky left-0 top-0 h-screen max-w-[16rem] border-r-white/20 border border-transparent">
+      <nav className="flex flex-col justify-between shrink-0 sticky left-0 top-0 h-screen max-w-[16rem] border-r-white/20 border border-transparent">
         <div>
-          <div className="flex gap-2 items-start px-4 pt-8 pb-4 max-h-24 h-full">
+          <div className="flex gap-2 items-center justify-center h-24 border-b border-white/20">
             <Image
               src={Logo}
               alt="SolveChat logo"
-              className="h-16 w-16 -mt-4"
+              className="h-16 w-16"
             ></Image>
             <span className="text-2xl font-bold">SolveChat</span>
           </div>
-          <Separator className="bg-white/20"></Separator>
 
           <div className="space-y-3 p-4">
             {NavItems.map((it, index) => {
