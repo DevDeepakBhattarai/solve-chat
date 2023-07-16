@@ -1,8 +1,8 @@
-import React, { ReactElement } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatDate } from "@/lib/utils";
 import { CheckCheck, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import { ReactElement } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface Props {
   latestMessage: string;

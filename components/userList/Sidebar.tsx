@@ -1,8 +1,6 @@
-import React, { ReactElement } from "react";
-import { Separator } from "../ui/separator";
-import SearchIcon from "../Icons/SearchIcon";
-import Search from "./Search";
 import { MessagesSquare, Pin } from "lucide-react";
+import { ReactElement } from "react";
+import Search from "./Search";
 import User from "./User";
 
 interface Props {}

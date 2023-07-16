@@ -1,17 +1,17 @@
-import React, { ReactElement, Suspense } from "react";
 import Logo from "@/public/logo.png";
-import Image from "next/image";
-import { Separator } from "../ui/separator";
 import {
-  LayoutDashboard,
-  Radio,
   FolderMinus,
+  LayoutDashboard,
   MessageCircle,
+  Radio,
   Settings,
 } from "lucide-react";
+import Image from "next/image";
+import { ReactElement, Suspense } from "react";
+import { Separator } from "../ui/separator";
+import { Skeleton } from "../ui/skeleton";
 import NavLink from "./NavLink";
 import UserInfo from "./UserInfo";
-import { Skeleton } from "../ui/skeleton";
 interface Props {}
 
 const NavItems = [

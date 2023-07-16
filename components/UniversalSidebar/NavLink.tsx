@@ -1,10 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { ReactElement, ReactNode } from "react";
+import { ReactElement } from "react";
 
 interface Props {
   Icon: ReactElement;

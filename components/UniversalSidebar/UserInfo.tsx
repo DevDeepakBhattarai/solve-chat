@@ -1,8 +1,7 @@
-import React, { ReactElement } from "react";
+import { nextAuthOptions } from "@/lib/nextAuthConfig";
+import { getServerSession } from "next-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Logout from "./Logout";
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "@/lib/nextAuthConfig";
 
 interface Props {}
 
