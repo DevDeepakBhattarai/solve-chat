@@ -4,7 +4,7 @@ import { nextAuthOptions } from "@/lib/nextAuthConfig";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Sidebar/Navbar";
+import Navbar from "@/components/UniversalSidebar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,14 +18,17 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(nextAuthOptions);
+  // const session = await getServerSession(nextAuthOptions);
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        {session && <Navbar></Navbar>}
-        <Toaster></Toaster>
-        {children}
-        {session && <AutoSignIn session={session} />}
+        <main className="flex">
+          {/* {session && <Navbar></Navbar>} */}
+          {true && <Navbar />}
+          <Toaster></Toaster>
+          {children}
+          {/* <AutoSignIn session={session} /> */}
+        </main>
       </body>
     </html>
   );

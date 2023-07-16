@@ -1,5 +1,4 @@
 "use client";
-
 import React, { ReactElement } from "react";
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
