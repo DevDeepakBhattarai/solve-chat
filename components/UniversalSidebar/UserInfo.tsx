@@ -10,9 +10,8 @@ export default async function UserInfo({}: Props) {
   const session = await getServerSession(nextAuthOptions);
 
   const { user } = session!;
-  const { id, name, image, email } = user;
-  useUser.setState({ image, name, email });
-
+  const { id, name, image, email } = user as User;
+  useUser.setState({ image, name, email, id });
   return (
     <div className="flex">
       <div className="flex items-center space-x-3 p-4 w-full">
