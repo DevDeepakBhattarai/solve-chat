@@ -2,6 +2,7 @@ import { nextAuthOptions } from "@/lib/nextAuthConfig";
 import { getServerSession } from "next-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Logout from "./Logout";
+import { useUser } from "@/states/userState";
 
 interface Props {}
 
@@ -9,7 +10,8 @@ export default async function UserInfo({}: Props) {
   const session = await getServerSession(nextAuthOptions);
 
   const { user } = session!;
-  const { id, name, image } = user;
+  const { id, name, image, email } = user;
+  useUser.setState({ image, name, email });
 
   return (
     <div className="flex">
