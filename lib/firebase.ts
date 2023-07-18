@@ -1,13 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import {
   getAuth,
   GoogleAuthProvider,
   FacebookAuthProvider,
   OAuthProvider,
+  connectAuthEmulator,
 } from "firebase/auth";
 
-const firebaseConfig = {
+let firebaseConfig = {
   apiKey: "AIzaSyCAjliEeODXOHKdhAuOAK6-_jJ5iMkrHgY",
   authDomain: "solvechat-cdc39.firebaseapp.com",
   projectId: "solvechat-cdc39",
@@ -21,6 +22,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
-export const facebookProvider = new FacebookAuthProvider();
-export const appleProvider = new OAuthProvider("apple.com");
-export const googleProvider = new GoogleAuthProvider();
+if (location.hostname === "localhost") {
+  connectFirestoreEmulator(db, "localhost", 4000);
+  connectAuthEmulator(auth, "http://127.0.0.1:4000", { disableWarnings: true });
+}

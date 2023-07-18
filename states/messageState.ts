@@ -1,12 +1,15 @@
 import { create } from "zustand";
 interface Rooms {
   messages: Message[];
-  roomId: string;
+  id: string;
   latestMessage: string;
-  sentBy: string;
-  sentAt: string;
+  latestMessageSentBy: string;
+  latestMessageSentAt: string;
   noOfMessageToSee: number;
   latestEvent: string;
+}
+
+type setRoom = {
   setMessages: (messages: Message) => void;
   setRoomId: (roomId: string) => void;
   setLatestMessage: (latestMessage: string) => void;
@@ -14,29 +17,29 @@ interface Rooms {
   setSentAt: (sentAt: string) => void;
   setNoOfMessageToSee: (noOfMessageToSee: number) => void;
   setLatestEvent: (latestEvent: string) => void;
-}
+};
 
-export const useMessage = create<Rooms>((set) => ({
+export const useMessage = create<Rooms & setRoom>((set) => ({
   messages: [],
-  roomId: "",
+  id: "",
   latestMessage: "",
-  sentBy: "",
-  sentAt: "",
+  latestMessageSentBy: "",
+  latestMessageSentAt: "",
   noOfMessageToSee: 0,
   latestEvent: "",
   setMessages: (message) =>
     set((state) => ({ ...state, messages: [...state.messages, message] })),
   setRoomId: (roomId) => {
-    set({ roomId: roomId });
+    set({ id: roomId });
   },
   setLatestMessage: (latestMessage) => {
     set({ latestMessage: latestMessage });
   },
   setSentBy: (sentBy) => {
-    set({ sentBy: sentBy });
+    set({ latestMessageSentBy: sentBy });
   },
   setSentAt: (sentAt) => {
-    set({ sentAt: sentAt });
+    set({ latestMessageSentAt: sentAt });
   },
   setNoOfMessageToSee: (noOfMessageToSee) => {
     set({ noOfMessageToSee: noOfMessageToSee });

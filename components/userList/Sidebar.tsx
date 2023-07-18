@@ -2,10 +2,79 @@ import { MessagesSquare, Pin } from "lucide-react";
 import { ReactElement } from "react";
 import Search from "./Search";
 import User from "./User";
-
+import * as admin from "firebase-admin";
+import { initializeFirebaseAdmin } from "@/lib/initializeFirebaseAdmin";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "@/lib/nextAuthConfig";
+import { redirect } from "next/navigation";
+import { Timestamp } from "firebase/firestore";
+import { FieldPath } from "firebase-admin/firestore";
 interface Props {}
 
-export default function Sidebar({}: Props): ReactElement {
+interface Room {
+  id: string;
+  latestMessageSentAt: Timestamp;
+  latestMessageSentBy: string;
+  members: string[];
+  latestMessage: string;
+  roomName: string;
+  roomImage: string;
+}
+async function getUser() {
+  initializeFirebaseAdmin();
+  const db = admin.firestore();
+  const session = await getServerSession(nextAuthOptions);
+  if (!session) {
+    redirect("/");
+  }
+  const { user } = session;
+  const { id } = user;
+
+  const roomsSnapShot = await db
+    .collection("rooms")
+    .where("members", "array-contains", id)
+    .orderBy("latestMessageSentAt")
+    .limit(10)
+    .get();
+
+  const rooms: Room[] = await Promise.all(
+    roomsSnapShot.docs.map(async (doc) => {
+      const room = doc.data() as Room;
+
+      // ! For two user room
+      if (!room?.roomName) {
+        //! Getting the other user
+        const [otherUser] = room.members.filter((value) => value !== id);
+
+        // ! Getting all the other user's data
+        const user = (
+          await db
+            .collection("users")
+            .where(FieldPath.documentId(), "==", otherUser)
+            .get()
+        ).docs[0]?.data();
+
+        return {
+          roomImage: user.image,
+          roomName: user.name,
+          id: doc.id,
+          ...doc.data(),
+        } as Room;
+      }
+
+      //! For multi user room
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as Room;
+    })
+  );
+
+  return rooms;
+}
+export default async function Sidebar({}: Props) {
+  const rooms = await getUser();
+  console.log(rooms);
   return (
     <section className="flex flex-col shrink-0 h-screen gap-4 max-w-md w-full border-r-white/20 border border-transparent">
       <div>
@@ -29,18 +98,23 @@ export default function Sidebar({}: Props): ReactElement {
           <h6 className="flex items-center gap-1  text-sm text-white/50 my-3">
             <MessagesSquare className="h-3.5 w-3.5" /> All messages
           </h6>
-          <User
-            latestMessage={"Hello How are you? "}
-            time={new Date()}
-            ownImage={""}
-            hasBeenSent={false}
-            isBeingSent={false}
-            hasBeenSeen={false}
-            noOfMessageToSee={1}
-            peerImage={""}
-            peerName={"John Doe"}
-            userId="hellothere"
-          ></User>
+          {rooms.map((room) => {
+            return (
+              <User
+                latestMessage={room.latestMessage}
+                time={room.latestMessageSentAt.toDate()}
+                ownImage={""}
+                hasBeenSent={false}
+                isBeingSent={false}
+                hasBeenSeen={false}
+                noOfMessageToSee={1}
+                peerImage={room.roomImage}
+                peerName={room.roomName}
+                roomId={room.id}
+                key={room.id}
+              ></User>
+            );
+          })}
         </div>
       </div>
     </section>

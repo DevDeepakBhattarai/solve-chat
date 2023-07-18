@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+ 
+      match /rooms/{roomId}{
+    	allow read: if isSignedIn() && resource.data.members.hasAny([request.auth.uid])
+      allow update : if dataIsStillSame()
+      allow create: if isInTheRoom(roomId)
+    } 
+        
+   match /rooms/{roomId}/messages/{document=**}{
+   		allow read,write :if isSignedIn() && isInTheRoom(roomId);
+      }
+
+    
+			function isInTheRoom(roomId){
+ 		 		return get(/databases/$(database)/documents/rooms/$(roomId)).data.members.hasAny([request.auth.uid]); 
+     	}
+     
+     	function isSignedIn(){
+     		return request.auth!=null
+     	}
+     function dataIsStillSame(){
+     return resource.data.members.hasAll(request.resource.data.members)
+     }
+  }
+  
+  
+}

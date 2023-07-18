@@ -13,7 +13,7 @@ interface Props {
   hasBeenSeen: boolean;
   peerImage: string;
   peerName: string;
-  userId: string;
+  roomId: string;
   noOfMessageToSee: number;
 }
 
@@ -25,13 +25,13 @@ export default function User({
   isBeingSent,
   hasBeenSeen,
   peerImage,
-  userId,
+  roomId,
   peerName,
   noOfMessageToSee,
 }: Props): ReactElement {
   return (
     <Link
-      href={`/messages/${userId}`}
+      href={`/messages/${roomId}`}
       className="flex gap-4 items-center justify-between hover:bg-white/20 p-2 rounded-md transition-all duration-150"
     >
       <div className="flex gap-4">
