@@ -11,7 +11,7 @@ This is a work-in-progress (WIP) chat application built with Next.js, shadcn/ui,
 ## Technologies Used
 
 - [Next.js](https://nextjs.org/): A React framework for building server-side rendered and static web applications.
-- [Shards UI](https://designrevision.com/): A modern UI toolkit for web applications based on Bootstrap.
+- [shadcn/ui](https://ui.shadcn.com/): A modern UI toolkit for web applications based on Bootstrap.
 - [NextAuth](https://next-auth.js.org/): Authentication library for Next.js applications.
 - [Firebase](https://firebase.google.com/): A cloud-based platform for building web and mobile applications.
 
