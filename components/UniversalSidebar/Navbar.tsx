@@ -25,9 +25,9 @@ const NavItems = [
 export default function Navbar({}: Props): ReactElement {
   return (
     <>
-      <nav className="flex flex-col justify-between shrink-0 sticky left-0 top-0 h-screen max-w-[16rem] border-r-white/20 border border-transparent">
+      <nav className="flex flex-col min-w-32 justify-between shrink-0 sticky left-0 top-0 h-screen max-w-[16rem] border-r-white/20 border border-transparent">
         <div>
-          <div className="flex gap-2 items-center justify-center h-24 border-b border-white/20">
+          <div className="flex gap-2 items-center justify-center h-24 px-2 border-b border-white/20">
             <Image
               src={Logo}
               alt="SolveChat logo"

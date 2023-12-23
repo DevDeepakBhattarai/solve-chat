@@ -18,13 +18,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const session = await getServerSession(nextAuthOptions);
+  const session = await getServerSession(nextAuthOptions);
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
         <main className="flex">
-          {/* {session && <Navbar></Navbar>} */}
-          {true && <Navbar />}
+          {session && <Navbar></Navbar>}
+          {/* {true && <Navbar />} */}
           <Toaster></Toaster>
           {children}
           {/* <AutoSignIn session={session} /> */}

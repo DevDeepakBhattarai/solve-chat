@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Logout from "./Logout";
 import { useUser } from "@/states/userState";
+import { redirect } from "next/navigation";
 
 interface Props {}
 

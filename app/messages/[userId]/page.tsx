@@ -12,13 +12,13 @@ export default function page({ params }: Props): ReactElement {
   return (
     <div className=" w-full">
       <Header
-        name={"John Doe"}
+        name={"Deepak Bhattarai"}
         id={"hello"}
         image={""}
         event={"He is typing..."}
       ></Header>
       <div className="grid gap-3 p-4">
-        <PeerMessage date={new Date()} peerImage="" peerName="John">
+        <PeerMessage date={new Date()} peerImage="" peerName="Deepak">
           <span>Hello there mate</span>
         </PeerMessage>
         <OwnMessage date={new Date()}>
