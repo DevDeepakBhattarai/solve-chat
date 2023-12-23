@@ -36,7 +36,7 @@ export default function User({
     >
       <div className="flex gap-4">
         <Avatar className="h-12 w-12">
-          <AvatarImage src={ownImage} alt={`${peerName}'s Profile Pic`} />
+          <AvatarImage src={peerImage} alt={`${peerName}'s Profile Pic`} />
 
           <AvatarFallback>
             {peerName.substring(0, 1).toUpperCase()}

@@ -11,7 +11,7 @@ export default async function page({}: Props) {
   const session = await getServerSession(nextAuthOptions);
   if (session) redirect("/");
   return (
-    <main className="flex h-screen p-4 gap-4">
+    <main className="flex h-screen p-4 gap-4 w-full">
       <div className="flex-1">
         <div className="place-items-start">
           <Logo></Logo>

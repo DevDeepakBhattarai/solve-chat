@@ -14,11 +14,17 @@ export default function page({ params }: Props): ReactElement {
       <Header
         name={"Deepak Bhattarai"}
         id={"hello"}
-        image={""}
+        image={
+          "https://lh3.googleusercontent.com/a/ACg8ocKxZe0U5UyEGqGe6fwrDyDG4KhdSfupmnBpsfPmiP5KOlQ=s96-c"
+        }
         event={"He is typing..."}
       ></Header>
       <div className="grid gap-3 p-4">
-        <PeerMessage date={new Date()} peerImage="" peerName="Deepak">
+        <PeerMessage
+          date={new Date()}
+          peerImage="https://lh3.googleusercontent.com/a/ACg8ocKxZe0U5UyEGqGe6fwrDyDG4KhdSfupmnBpsfPmiP5KOlQ=s96-c"
+          peerName="Deepak"
+        >
           <span>Hello there mate</span>
         </PeerMessage>
         <OwnMessage date={new Date()}>
